@@ -43,6 +43,15 @@ cd ..
 rm *.tar
 mkdir -p val/val
 cd val/val
-wget -c http://www.image-net.org/challenges/LSVRC/2012/nnoupb/ILSVRC2012_img_val.tar
+
+export fileid=13NQpUJWXIkcV9xkFo-lr9X7CSmraG2Ll
+export filename=ILSVRC2012_img_val.tar
+wget --save-cookies cookies.txt 'https://docs.google.com/uc?export=download&id='$fileid -O- \
+     | sed -rn 's/.*confirm=([0-9A-Za-z_]+).*/\1/p' > confirm.txt
+wget --load-cookies cookies.txt -O $filename \
+     'https://docs.google.com/uc?export=download&id='$fileid'&confirm='$(<confirm.txt)
+rm -f confirm.txt cookies.txt
+# wget -c http://www.image-net.org/challenges/LSVRC/2012/nnoupb/ILSVRC2012_img_val.tar
+
 tar -xvf ILSVRC2012_img_val.tar
 rm *.tar
