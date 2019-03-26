@@ -51,7 +51,8 @@ class FeatureClassificationModel(Algorithm):
         #********************************************************
         start = time.time()
         out_feat_keys = self.out_feat_keys
-        finetune_feat_extractor = self.optimizers['feat_extractor'] is not None
+
+        finetune_feat_extractor = self.optimizers.has_key('feat_extractor')
         if do_train: # zero the gradients
             self.optimizers['classifier'].zero_grad() 
             if finetune_feat_extractor:
