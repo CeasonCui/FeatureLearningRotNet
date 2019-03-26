@@ -1,5 +1,9 @@
 #!/bin/bash
 
+sudo pip install -r requirements.txt
+wget https://gist.githubusercontent.com/SykieChen/62fe1c15dfc864af862e8fd4c7b2eed3/raw/a37f73ca64efa68e09ee254054651bdb21bddaca/functional.py
+sudo mv functional.py /usr/local/lib/python2.7/dist-packages/torchvision/transforms/functional.py
+
 mkdir -p experiments
 cd experiments
 
