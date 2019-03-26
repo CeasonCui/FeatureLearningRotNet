@@ -20,6 +20,11 @@ rm *.tar
 cd ..
 mkdir -p datasets
 cd datasets
+
+wget -c http://data.csail.mit.edu/places/places205/trainvalsplit_places205.tar.gz
+tar -xzvf trainvalsplit_places205.tar.gz
+mv trainvalsplit_places205 Places205
+
 mkdir -p IMAGENET
 cd IMAGENET
 mkdir -p ILSVRC2012
