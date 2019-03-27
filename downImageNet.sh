@@ -3,7 +3,7 @@
 echo installing python packages
 sudo pip install -r requirements.txt
 echo fixing package bug
-wget https://gist.githubusercontent.com/SykieChen/62fe1c15dfc864af862e8fd4c7b2eed3/raw/a37f73ca64efa68e09ee254054651bdb21bddaca/functional.py
+wget -q --show-progress https://gist.githubusercontent.com/SykieChen/62fe1c15dfc864af862e8fd4c7b2eed3/raw/a37f73ca64efa68e09ee254054651bdb21bddaca/functional.py
 sudo mv functional.py /usr/local/lib/python2.7/dist-packages/torchvision/transforms/functional.py
 
 echo downloading trained results
@@ -12,9 +12,9 @@ cd experiments
 
 export fileid=175gPpsmgpzIC-TiYPrMUrfRdNXq-v67Y
 export filename=ImageNet_RotNet_AlexNet.tar
-wget --save-cookies cookies.txt 'https://docs.google.com/uc?export=download&id='$fileid -O- \
+wget -q --save-cookies cookies.txt 'https://docs.google.com/uc?export=download&id='$fileid -O- \
      | sed -rn 's/.*confirm=([0-9A-Za-z_]+).*/\1/p' > confirm.txt
-wget --load-cookies cookies.txt -O $filename \
+wget -q --show-progress --load-cookies cookies.txt -O $filename \
      'https://docs.google.com/uc?export=download&id='$fileid'&confirm='$(<confirm.txt)
 rm -f confirm.txt cookies.txt
 
@@ -27,7 +27,7 @@ cd datasets
 echo downloading places205 csv
 mkdir -p Places205
 cd Places205
-wget -c http://data.csail.mit.edu/places/places205/trainvalsplit_places205.tar.gz
+wget -q --show-progress -c http://data.csail.mit.edu/places/places205/trainvalsplit_places205.tar.gz
 tar -xzf trainvalsplit_places205.tar.gz
 rm *.gz
 cd ..
@@ -41,9 +41,9 @@ mkdir -p train
 
 export fileid=1LcW1qBPS77vZju_kKCBpaH1Wb3zwrQ0n
 export filename=ILSVRC2012_img_train_t3.tar
-wget --save-cookies cookies.txt 'https://docs.google.com/uc?export=download&id='$fileid -O- \
+wget -q --save-cookies cookies.txt 'https://docs.google.com/uc?export=download&id='$fileid -O- \
      | sed -rn 's/.*confirm=([0-9A-Za-z_]+).*/\1/p' > confirm.txt
-wget --load-cookies cookies.txt -O $filename \
+wget -q --show-progress --load-cookies cookies.txt -O $filename \
      'https://docs.google.com/uc?export=download&id='$fileid'&confirm='$(<confirm.txt)
 rm -f confirm.txt cookies.txt
 
@@ -61,9 +61,9 @@ cd val/val
 
 export fileid=13NQpUJWXIkcV9xkFo-lr9X7CSmraG2Ll
 export filename=ILSVRC2012_img_val.tar
-wget --save-cookies cookies.txt 'https://docs.google.com/uc?export=download&id='$fileid -O- \
+wget -q --save-cookies cookies.txt 'https://docs.google.com/uc?export=download&id='$fileid -O- \
      | sed -rn 's/.*confirm=([0-9A-Za-z_]+).*/\1/p' > confirm.txt
-wget --load-cookies cookies.txt -O $filename \
+wget -q --show-progress --load-cookies cookies.txt -O $filename \
      'https://docs.google.com/uc?export=download&id='$fileid'&confirm='$(<confirm.txt)
 rm -f confirm.txt cookies.txt
 # wget -c http://www.image-net.org/challenges/LSVRC/2012/nnoupb/ILSVRC2012_img_val.tar
