@@ -22,6 +22,7 @@ echo downloading places205 csv
 mkdir -p Places205
 cd Places205
 wget -q --show-progress -c http://data.csail.mit.edu/places/places205/trainvalsplit_places205.tar.gz
+echo extracting places205 csv
 tar -xzf trainvalsplit_places205.tar.gz
 rm *.gz
 cd ..
@@ -42,6 +43,7 @@ wget -q --show-progress --load-cookies cookies.txt -O $filename \
 rm -f confirm.txt cookies.txt
 
 # wget -c http://www.image-net.org/challenges/LSVRC/2012/nnoupb/ILSVRC2012_img_train_t3.tar
+echo extracting imagenet 2012 training data part 3
 tar -xf ILSVRC2012_img_train_t3.tar -C ./train/
 cd train
 for f in *.tar; do tar -xf "$f" --one-top-level; done
@@ -62,5 +64,8 @@ wget -q --show-progress --load-cookies cookies.txt -O $filename \
 rm -f confirm.txt cookies.txt
 # wget -c http://www.image-net.org/challenges/LSVRC/2012/nnoupb/ILSVRC2012_img_val.tar
 
+echo extracting imagenet 2012 validation data
 tar -xf ILSVRC2012_img_val.tar
 rm *.tar
+
+echo done
