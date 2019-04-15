@@ -35,7 +35,7 @@ num_imgs_per_cat = data_train_opt['num_imgs_per_cat'] if ('num_imgs_per_cat' in 
 
 
 
-dataset_train = GenericDataset(
+dataset_train = GenericDataset(#获取数据集
     dataset_name=data_train_opt['dataset_name'],
     split=data_train_opt['split'],
     random_sized_crop=data_train_opt['random_sized_crop'],

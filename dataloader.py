@@ -86,23 +86,24 @@ class GenericDataset(data.Dataset):
         # to use less annotated examples than what are available
         # in a semi-superivsed experiment. By default all the 
         # available training examplers per category are being used.
+        #每个类别的样例数
         self.num_imgs_per_cat = num_imgs_per_cat
 
         if self.dataset_name=='imagenet':
             assert(self.split=='train' or self.split=='val')
-            self.mean_pix = [0.485, 0.456, 0.406]
-            self.std_pix = [0.229, 0.224, 0.225]
+            self.mean_pix = [0.485, 0.456, 0.406] #像素的平均值#归一化，方便迭代
+            self.std_pix = [0.229, 0.224, 0.225] #像素的标准差
 
             if self.split!='train':
                 transforms_list = [
-                    transforms.Scale(256),
-                    transforms.CenterCrop(224),
+                    transforms.Scale(256), #调整大小，短边256
+                    transforms.CenterCrop(224),#剪裁
                     lambda x: np.asarray(x),
                 ]
             else:
                 if self.random_sized_crop:
                     transforms_list = [
-                        transforms.RandomSizedCrop(224),
+                        transforms.RandomSizedCrop(224),#一种裁剪方式，但一般不被推荐使用
                         transforms.RandomHorizontalFlip(),
                         lambda x: np.asarray(x),
                     ]
@@ -124,15 +125,15 @@ class GenericDataset(data.Dataset):
                     transforms.CenterCrop(224),
                     lambda x: np.asarray(x),
                 ]
-            else:
+            else: #不是train就要随机剪裁？
                 if self.random_sized_crop:
                     transforms_list = [
                         transforms.RandomSizedCrop(224),
                         transforms.RandomHorizontalFlip(),
-                        lambda x: np.asarray(x),
+                        lambda x: np.asarray(x),#要用的话，a=transforms_list[2](x) 则a是个array，里面的内容是x。transforms_list[2](x)是个函数
                     ]
                 else:
-                    transforms_list = [
+                    transforms_list = [ #默认情况
                         transforms.RandomCrop(224),
                         transforms.RandomHorizontalFlip(),
                         lambda x: np.asarray(x),
@@ -163,7 +164,7 @@ class GenericDataset(data.Dataset):
             self._keep_first_k_examples_per_category(num_imgs_per_cat)
         
     
-    def _keep_first_k_examples_per_category(self, num_imgs_per_cat):
+    def _keep_first_k_examples_per_category(self, num_imgs_per_cat):#在每个组别中保存最开始的k个例子
         print('num_imgs_per_category {0}'.format(num_imgs_per_cat))
    
         if self.dataset_name=='cifar10':
@@ -213,7 +214,7 @@ class Denormalize(object):
             t.mul_(s).add_(m)
         return tensor
 
-def rotate_img(img, rot):
+def rotate_img(img, rot):#改这儿！！
     if rot == 0: # 0 degrees rotation
         return img
     elif rot == 90: # 90 degrees rotation
@@ -253,9 +254,9 @@ class DataLoader(object):
             lambda x: x.transpose(1,2,0).astype(np.uint8),
         ])
 
-    def get_iterator(self, epoch=0):
+    def get_iterator(self, epoch=0):#改这儿！！
         rand_seed = epoch * self.epoch_size
-        random.seed(rand_seed)
+        random.seed(rand_seed) #随机数种子，随机初始化（好像是）
         if self.unsupervised:
             # if in unsupervised mode define a loader function that given the
             # index of an image it returns the 4 rotated copies of the image
@@ -266,7 +267,7 @@ class DataLoader(object):
                 img0, _ = self.dataset[idx]
                 rotated_imgs = [
                     self.transform(img0),
-                    self.transform(rotate_img(img0,  90)),
+                    self.transform(rotate_img(img0,  90)),#Rot(.)
                     self.transform(rotate_img(img0, 180)),
                     self.transform(rotate_img(img0, 270))
                 ]
@@ -296,7 +297,7 @@ class DataLoader(object):
             shuffle=self.shuffle)
         return data_loader
 
-    def __call__(self, epoch=0):
+    def __call__(self, epoch=0):#传递数据集
         return self.get_iterator(epoch)
 
     def __len__(self):

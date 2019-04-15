@@ -40,3 +40,4 @@ criterions['loss'] = {'ctype':'CrossEntropyLoss', 'opt':None}
 config['criterions'] = criterions
 config['algorithm_type'] = 'FeatureClassificationModel'
 config['best_metric'] = 'prec1'
+#图5b的半监督部分

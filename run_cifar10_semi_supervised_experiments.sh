@@ -1,6 +1,6 @@
 #!/bin/bash
 echo "Run semi supervised experiments"
-
+#表5b
 # Train a conv-based classifier on top of the feature maps of the 2nd conv. block of a NIN-based RotNet model 
 # trained on the entire training set of CIFAR10.
 

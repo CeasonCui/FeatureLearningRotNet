@@ -54,9 +54,9 @@ class FeatureClassificationModel(Algorithm):
 
         finetune_feat_extractor = self.optimizers.has_key('feat_extractor')
         if do_train: # zero the gradients
-            self.optimizers['classifier'].zero_grad() 
+            self.optimizers['classifier'].zero_grad() #分类
             if finetune_feat_extractor:
-                self.optimizers['feat_extractor'].zero_grad()
+                self.optimizers['feat_extractor'].zero_grad() #特征提取
             else:
                 self.networks['feat_extractor'].eval()
         #********************************************************
