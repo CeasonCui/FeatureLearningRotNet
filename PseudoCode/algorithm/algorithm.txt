@@ -1,7 +1,7 @@
 FUNCTION solve 
 	PASS IN: Data loader of training set, data loader of test set
 	Fetching the maximum value of epoch
-	IF optimizers is not empty
+	IF optimizers is not empty THEN
 		CALL: FUNCTION initialize all optimizers
 	ENDIF
 
@@ -13,11 +13,11 @@ FUNCTION solve
 		run training epoch WITH current epoch, data loader of training set 
 		document logger with training status
 		save the current checkpoint
-		IF starting epoch NOT EQUAL current epoch value
+		IF starting epoch NOT EQUAL current epoch value THEN
 			delete checkpoint of current epoch
 		ENDIF 
 
-		IF data loader of test set NOT NULL
+		IF data loader of test set NOT NULL THEN
 			CALL: FUNCTION evaluate WITH data loader of test set 
 			document logger with evaluate status
 			CALL: FUNCTION keep record of best model
@@ -26,3 +26,49 @@ FUNCTION solve
 	CALL: FUNCTION print evaluation status of best model
 	PASS OUT: NOTHING
 ENDFUCNTION
+
+
+FUNCTION run an epoch of training
+	PASS IN: data_loader, epoch
+	document logger with training directory
+	SET dloader AS data_loader
+	SET dataset_train AS data_loader
+	FOR every (key, value) IN networks
+		IF key EXIST IN optimizers THEN
+			CALL: FUNCTION network.eval
+		ELSE DO
+			CALL: FUNCTION network.train
+		ENDIF
+	ENDFOR
+
+	IF 'disp_step' IN opt THEN
+		SET disp_step as opt['disp_step']
+	ELSE
+		SET disp_step as 50
+	ENDIF
+
+	CALL: FUNCTION DAverageMeter to define training status
+	SET bnumber AS epoch_size / data_loader.batch_size
+	FOR batch IN data_loader in epoch DO
+		SET biter AS index
+		CALL: FUNCTION train_step to train a step of batch
+		update the training status
+		IF reach the distance step
+			document the logger with iteration status
+		ENDIF
+	PASS OUT: average value of training status
+ENDFUNCTION
+
+
+
+FUNCTION evaluate
+	PASS IN: data loader
+	document the logger with experiment directory
+	
+
+
+
+
+
+
+
