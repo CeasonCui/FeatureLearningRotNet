@@ -227,7 +227,7 @@ def rotate_img(img, rot):#改这儿！！
         raise ValueError('rotation should be 0, 90, 180, or 270 degrees')
 
 
-class DataLoader(object):
+class DataLoader(object): #DataLoader 是 torch 给你用来包装你的数据的工具.他们帮你有效地迭代数据
     def __init__(self,
                  dataset,
                  batch_size=1,

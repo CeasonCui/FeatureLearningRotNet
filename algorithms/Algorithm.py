@@ -266,6 +266,7 @@ class Algorithm():
         train_stats = utils.DAverageMeter() #定义了一个对象（字典），训练状态
         self.bnumber = len(data_loader()) #重构的len，bnumber = epoch_size / self.batch_size，数
         for idx, batch in enumerate(tqdm(data_loader(epoch))): #idx: index; batch = element in dataloader(epoch)
+                                                               #epoch分为好几个batch，每个batch里有128个
             self.biter = idx
             train_stats_this = self.train_step(batch) #空类，子类继承，返回一个字典，其中包含loss及其他需要统计的数据
                                                       #在另外两个文件夹里
@@ -278,7 +279,7 @@ class Algorithm():
     def evaluate(self, dloader):
         self.logger.info('Evaluating: %s' % os.path.basename(self.exp_dir))
 
-	    self.dloader = dloader
+        self.dloader = dloader
         self.dataset_eval = dloader.dataset
         self.logger.info('==> Dataset: %s [%d images]' % (dloader.dataset.name, len(dloader)))
         for key, network in self.networks.items():

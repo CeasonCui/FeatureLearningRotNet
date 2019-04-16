@@ -57,7 +57,7 @@ class ClassificationModel(Algorithm):
     def __init__(self, opt):
         Algorithm.__init__(self, opt)
 
-    def allocate_tensors(self):
+    def allocate_tensors(self):#分配张量
         self.tensors = {}
         self.tensors['dataX'] = torch.FloatTensor()
         self.tensors['labels'] = torch.LongTensor()
@@ -70,8 +70,9 @@ class ClassificationModel(Algorithm):
 
     def process_batch(self, batch, do_train=True):
         #*************** LOAD BATCH (AND MOVE IT TO GPU) ********
+        #加载批量（并将其移至GPU）
         start = time.time()
-        self.tensors['dataX'].resize_(batch[0].size()).copy_(batch[0])
+        self.tensors['dataX'].resize_(batch[0].size()).copy_(batch[0])#为啥这里分batch0 batch1
         self.tensors['labels'].resize_(batch[1].size()).copy_(batch[1])
         dataX = self.tensors['dataX']
         labels = self.tensors['labels']
