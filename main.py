@@ -1,4 +1,5 @@
 from __future__ import print_function
+# -*- coding: UTF-8 -*-
 import argparse
 import os
 import imp

@@ -35,4 +35,3 @@ criterions = {}
 criterions['loss'] = {'ctype':'CrossEntropyLoss', 'opt':None}
 config['criterions'] = criterions
 config['algorithm_type'] = 'ClassificationModel'
-#受监督
