@@ -219,29 +219,35 @@ class Denormalize(object):
         return tensor
 
 def rotate_img(img, rot):#改这儿！！
-    if rot == 0: # 0 degrees rotation
-        return img
-    elif rot == 90: # 90 degrees rotation
-        return np.flipud(np.transpose(img, (1,0,2)))
-    elif rot == 180: # 90 degrees rotation
-        return np.fliplr(np.flipud(img))
-    elif rot == 270: # 270 degrees rotation / or -90
-        return np.transpose(np.flipud(img), (1,0,2))
-    else:
-        raise ValueError('rotation should be 0, 90, 180, or 270 degrees')
+    # if rot == 0: # 0 degrees rotation
+    #     return img
+    # elif rot == 90: # 90 degrees rotation
+    #     return np.flipud(np.transpose(img, (1,0,2)))
+    # elif rot == 180: # 90 degrees rotation
+    #     return np.fliplr(np.flipud(img))
+    # elif rot == 270: # 270 degrees rotation / or -90
+    #     return np.transpose(np.flipud(img), (1,0,2))
+    # else:
+    #     raise ValueError('rotation should be 0, 90, 180, or 270 degrees')
 
     if rot == 0: # 0 degrees rotation
         return img
-    elif rot == 10: # 90 degrees rotation
-        return np.flipud(np.transpose(img, (1,0,2)))
-    elif rot == -10: # 90 degrees rotation
-        return np.fliplr(np.flipud(img))
-    elif rot == 20: # 270 degrees rotation / or -90
-        return np.transpose(np.flipud(img), (1,0,2))
-    elif rot == -20: # 270 degrees rotation / or -90
-        return np.transpose(np.flipud(img), (1,0,2))
+    elif rot == 10: # 10 degrees rotation
+
+        return img.Rotate(radians(10)) 
+    elif rot == -10: # -10 degrees rotation
+        return img.Rotate(-radians(10))
+    elif rot == 20: # 20 degrees rotation
+        return img.Rotate(radians(20))
+    elif rot == -20: # -20 degrees rotation
+        return img.Rotate(-radians(20))
     else:
-        raise ValueError('rotation should be 0, 90, 180, or 270 degrees')
+        raise ValueError('rotation should be 0, +-10 or +-20')
+def Rotate(self,beta):               #旋转
+        #beta>0表示逆时针旋转；beta<0表示顺时针旋转
+        self.transform=np.array([[cos(beta),-sin(beta),0],
+                                 [sin(beta), cos(beta),0],
+                                 [    0,         0     1]])
 
 
 class DataLoader(object): #DataLoader 是 torch 给你用来包装你的数据的工具.他们帮你有效地迭代数据
@@ -262,7 +268,8 @@ class DataLoader(object): #DataLoader 是 torch 给你用来包装你的数据�
         mean_pix  = self.dataset.mean_pix
         std_pix   = self.dataset.std_pix
         self.transform = transforms.Compose([
-            transforms.ToTensor(),
+            transforms.ToTensor(),#将numpy转换成矩阵
+            transforms.CenterCrop(174), 
             transforms.Normalize(mean=mean_pix, std=std_pix)
         ])
         self.inv_transform = transforms.Compose([
@@ -284,11 +291,25 @@ class DataLoader(object): #DataLoader 是 torch 给你用来包装你的数据�
                 img0, _ = self.dataset[idx]
                 rotated_imgs = [
                     self.transform(img0),
-                    self.transform(rotate_img(img0,  90)),#Rot(.)
-                    self.transform(rotate_img(img0, 180)),
-                    self.transform(rotate_img(img0, 270))
+                    self.transform(rotate_img(img0,  10)),#Rot(.)
+                    self.transform(rotate_img(img0, -10)),
+                    self.transform(rotate_img(img0, 20))
+                    self.transform(rotate_img(img0, -20))
                 ]
-                rotation_labels = torch.LongTensor([0, 1, 2, 3])
+                
+                # rotated_imgs = [
+                #     # self.transform(img0),
+                #     # self.transform(rotate_img(img0,  10)),#Rot(.)
+                #     # self.transform(rotate_img(img0, -10)),
+                #     # self.transform(rotate_img(img0, 20)),
+                #     # self.transform(rotate_img(img0, -20)),
+                #     self.transform(transforms.Compose(transforms_list1)),
+                #     self.transform(transforms.Compose(transforms_list2)),,
+                #     self.transform(transforms.Compose(transforms_list3)),
+                #     self.transform(transforms.Compose(transforms_list4)),
+                #     self.transform(transforms.Compose(transforms_list5)),
+                # ]
+                rotation_labels = torch.LongTensor([0, 1, 2, 3, 4])
                 return torch.stack(rotated_imgs, dim=0), rotation_labels
             def _collate_fun(batch):
                 batch = default_collate(batch)
