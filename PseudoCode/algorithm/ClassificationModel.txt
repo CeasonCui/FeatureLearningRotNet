@@ -1,0 +1,5 @@
+FUNCTION acutacy
+	PASS IN: output, target, topk
+
+	Set maxk AS maximum value in elements of topk
+	batsize

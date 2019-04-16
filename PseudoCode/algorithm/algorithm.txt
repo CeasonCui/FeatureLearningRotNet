@@ -1,3 +1,4 @@
+
 FUNCTION solve 
 	PASS IN: Data loader of training set, data loader of test set
 	Fetching the maximum value of epoch
@@ -64,7 +65,21 @@ ENDFUNCTION
 FUNCTION evaluate
 	PASS IN: data loader
 	document the logger with experiment directory
-	
+	copy the value of dloader to the class
+	SET dataset for evaluation AS dloader.dataset
+	document the logger with the image info
+	CALL: FUNCTION eval TO EVERY network IN networks
+	CALL: FUNCTION DAverageMeter RETURN TO evaluation status
+	SET bnumber AS data_loader.epoch_size / data_loader.batch_size
+	FOR batch IN dloader DO
+		SET biter AS index
+		CALL: FUNCTION train_step to train a step of batch
+		update the evaluation status
+	ENDFOR
+	document the result of average value of evaluation status
+	PASS OUT: average value of evaluation status
+ENDFUNCTION
+
 
 
 
