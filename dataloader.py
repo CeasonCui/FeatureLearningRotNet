@@ -1,5 +1,5 @@
+#-*- coding:utf-8 –*-
 from __future__ import print_function
-# -*- coding: UTF-8 -*-
 import torch
 import torch.utils.data as data
 import torchvision
