@@ -18,7 +18,7 @@ from . import Algorithm
 from pdb import set_trace as breakpoint
 
     
-    """准确率计算函数
+"""准确率计算函数
     输入output是模型预测的结果，
     尺寸为batch size*num class；target是真实标签，长度为batch size。
     这二者都是Tensor类型，具体而言前者是Float Tensor，后者是Long Tensor。
