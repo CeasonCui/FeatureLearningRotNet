@@ -15,6 +15,9 @@ import errno
 import numpy as np
 import sys
 import csv
+import cv2
+from math import cos,sin,radians
+from matplotlib import pyplot as plt
 
 from pdb import set_trace as breakpoint
 
@@ -222,6 +225,19 @@ def rotate_img(img, rot):#改这儿！！
     elif rot == 180: # 90 degrees rotation
         return np.fliplr(np.flipud(img))
     elif rot == 270: # 270 degrees rotation / or -90
+        return np.transpose(np.flipud(img), (1,0,2))
+    else:
+        raise ValueError('rotation should be 0, 90, 180, or 270 degrees')
+
+    if rot == 0: # 0 degrees rotation
+        return img
+    elif rot == 10: # 90 degrees rotation
+        return np.flipud(np.transpose(img, (1,0,2)))
+    elif rot == -10: # 90 degrees rotation
+        return np.fliplr(np.flipud(img))
+    elif rot == 20: # 270 degrees rotation / or -90
+        return np.transpose(np.flipud(img), (1,0,2))
+    elif rot == -20: # 270 degrees rotation / or -90
         return np.transpose(np.flipud(img), (1,0,2))
     else:
         raise ValueError('rotation should be 0, 90, 180, or 270 degrees')
