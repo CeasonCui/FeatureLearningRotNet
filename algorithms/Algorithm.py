@@ -303,12 +303,12 @@ class Algorithm():
         optim_params_filtered = {k:v for k,v in self.optim_params.items()
             if (v != None and ('LUT_lr' in v))} #有条件复制字典
 
-            for key, oparams in optim_params_filtered.items():
-                LUT = oparams['LUT_lr']
-                lr = next((lr for (max_epoch, lr) in LUT if max_epoch>epoch), LUT[-1][1])
-                self.logger.info('==> Set to %s optimizer lr = %.10f' % (key, lr))
-                for param_group in self.optimizers[key].param_groups:
-                    param_group['lr'] = lr
+        for key, oparams in optim_params_filtered.items():
+            LUT = oparams['LUT_lr']
+            lr = next((lr for (max_epoch, lr) in LUT if max_epoch>epoch), LUT[-1][1])
+            self.logger.info('==> Set to %s optimizer lr = %.10f' % (key, lr))
+            for param_group in self.optimizers[key].param_groups:
+                param_group['lr'] = lr
 
     def init_record_of_best_model(self):
         self.max_metric_val = None
