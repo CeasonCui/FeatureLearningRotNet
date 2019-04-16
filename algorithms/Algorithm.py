@@ -1,5 +1,5 @@
-"""Define a generic class for training and testing learning algorithms."""
 #-*- coding:utf-8 –*-
+"""Define a generic class for training and testing learning algorithms."""
 from __future__ import print_function
 import os
 import os.path
