@@ -1,0 +1,28 @@
+FUNCTION solve 
+	PASS IN: Data loader of training set, data loader of test set
+	Fetching the maximum value of epoch
+	IF optimizers is not empty
+		CALL: FUNCTION initialize all optimizers
+	ENDIF
+
+	CALL: FUNCTION record of best model
+	SET starting epoch AS current epoch
+	FOR EVERY epoch value IN RANGE FROM starting epoch TO maximum value of epoch
+		document logger with current epoch
+		adjust learning rate to WITH current epoch value
+		run training epoch WITH current epoch, data loader of training set 
+		document logger with training status
+		save the current checkpoint
+		IF starting epoch NOT EQUAL current epoch value
+			delete checkpoint of current epoch
+		ENDIF 
+
+		IF data loader of test set NOT NULL
+			CALL: FUNCTION evaluate WITH data loader of test set 
+			document logger with evaluate status
+			CALL: FUNCTION keep record of best model
+		ENDIF 
+	ENDFOR
+	CALL: FUNCTION print evaluation status of best model
+	PASS OUT: NOTHING
+ENDFUCNTION
