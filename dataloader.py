@@ -266,8 +266,9 @@ class DataLoader(object):  # DataLoader 是 torch 给你用来包装你的数据
         mean_pix = self.dataset.mean_pix
         std_pix = self.dataset.std_pix
         self.transform = transforms.Compose([
-            transforms.ToTensor(),  # 将numpy转换成矩阵
+            transforms.ToPILImage(),
             transforms.CenterCrop(174),
+            transforms.ToTensor(),  # 将numpy转换成矩阵
             transforms.Normalize(mean=mean_pix, std=std_pix)
         ])
         self.inv_transform = transforms.Compose([
@@ -294,7 +295,10 @@ class DataLoader(object):  # DataLoader 是 torch 给你用来包装你的数据
                     self.transform(rotate_img(img0,  20)),
                     self.transform(rotate_img(img0, -20))
                 ]
-                
+                # # WIP: test code
+                # for i,img in enumerate(rotated_imgs):
+                #     transforms.functional.to_pil_image(img).save(str(i) + ".png")
+                # input("saved")
 
                 # rotated_imgs = [
                 #     # self.transform(img0),
