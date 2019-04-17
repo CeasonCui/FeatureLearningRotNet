@@ -239,27 +239,12 @@ def rotate_img(img, rot):  # 改这儿！！
     #     return np.transpose(np.flipud(img), (1,0,2))
     # else:
     #     raise ValueError('rotation should be 0, 90, 180, or 270 degrees')
-
-    if rot == 0:  # 0 degrees rotation
-        return img
-    elif rot == 10:  # 10 degrees rotation
-
-        return img.Rotate(radians(10))
-    elif rot == -10:  # -10 degrees rotation
-        return img.Rotate(-radians(10))
-    elif rot == 20:  # 20 degrees rotation
-        return img.Rotate(radians(20))
-    elif rot == -20:  # -20 degrees rotation
-        return img.Rotate(-radians(20))
-    else:
-        raise ValueError('rotation should be 0, +-10 or +-20')
-
-
-def Rotate(self, beta):  # 旋转
-        # beta>0表示逆时针旋转；beta<0表示顺时针旋转
-    self.transform = np.array([[cos(beta), -sin(beta), 0],
-                               [sin(beta), cos(beta) , 0],
-                               [0        , 0         , 1]])
+    # img is numpy ndarray
+    # 旋转
+    # angle>0表示逆时针旋转；angle<0表示顺时针旋转
+    _pil_img = transforms.functional.to_pil_image(img)
+    _r_pil_img = transforms.functional.rotate(_pil_img, rot)
+    return np.array(_r_pil_img)
 
 
 class DataLoader(object):  # DataLoader 是 torch 给你用来包装你的数据的工具.他们帮你有效地迭代数据
@@ -306,9 +291,10 @@ class DataLoader(object):  # DataLoader 是 torch 给你用来包装你的数据
                     self.transform(img0),
                     self.transform(rotate_img(img0,  10)),  # Rot(.)
                     self.transform(rotate_img(img0, -10)),
-                    self.transform(rotate_img(img0, 20)),
+                    self.transform(rotate_img(img0,  20)),
                     self.transform(rotate_img(img0, -20))
                 ]
+                
 
                 # rotated_imgs = [
                 #     # self.transform(img0),
