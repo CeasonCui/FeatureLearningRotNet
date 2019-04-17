@@ -244,9 +244,9 @@ def rotate_img(img, rot):  # 改这儿！！
     # angle>0表示逆时针旋转；angle<0表示顺时针旋转
     _pil_img = transforms.functional.to_pil_image(img)
     _r_pil_img = transforms.functional.rotate(_pil_img, rot)
-    # 0.78 is zoom ratio for maxmium 20 degrees
+    # 0.7 is zoom ratio for maxmium 45 degrees
     # calculated from sqrt(1+tan(theta)*tan(theta))/(1+tan(theta))
-    _ratio = 0.78
+    _ratio = 0.7
     _w,_ = _r_pil_img.size
     center_crop = transforms.CenterCrop(int(_w * _ratio))
     return np.array(center_crop(_r_pil_img))
@@ -292,16 +292,17 @@ class DataLoader(object):  # DataLoader 是 torch 给你用来包装你的数据
                 idx = idx % len(self.dataset)
                 img0, _ = self.dataset[idx]
                 rotated_imgs = [
-                    self.transform(img0),
+                    self.transform(rotate_img(img0,   0)),
                     self.transform(rotate_img(img0,  10)),  # Rot(.)
                     self.transform(rotate_img(img0, -10)),
                     self.transform(rotate_img(img0,  20)),
                     self.transform(rotate_img(img0, -20))
                 ]
-                # WIP: test code
-                for i,img in enumerate(rotated_imgs):
-                    transforms.functional.to_pil_image(img).save(str(i) + ".png")
-                raw_input("saved")
+                # # WIP: test code
+                # for i,img in enumerate(rotated_imgs):
+                #     transforms.functional.to_pil_image(img).save(str(idx) + '-' + str(i) + ".bmp")
+                # print("saved, press to continue")
+                # raise SystemExit
 
                 # rotated_imgs = [
                 #     # self.transform(img0),
