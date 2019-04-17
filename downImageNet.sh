@@ -13,6 +13,19 @@ wget -q --show-progress --load-cookies cookies.txt -O $filename \
 rm -f confirm.txt cookies.txt
 
 tar -xf ImageNet_RotNet_AlexNet.tar --one-top-level
+
+# cifar10
+export fileid=1qI5znIhn_z1IvXf_9U_rigT7yC0467uh
+export filename=CIFAR10_RotNet_NIN4blocks.tar
+wget -q --save-cookies cookies.txt 'https://docs.google.com/uc?export=download&id='$fileid -O- \
+     | sed -rn 's/.*confirm=([0-9A-Za-z_]+).*/\1/p' > confirm.txt
+wget -q --show-progress --load-cookies cookies.txt -O $filename \
+     'https://docs.google.com/uc?export=download&id='$fileid'&confirm='$(<confirm.txt)
+rm -f confirm.txt cookies.txt
+
+tar -xf CIFAR10_RotNet_NIN4blocks.tar --one-top-level
+
+
 rm *.tar
 cd ..
 mkdir -p datasets
