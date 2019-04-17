@@ -227,7 +227,7 @@ class Algorithm():
 
     def solve(self, data_loader_train, data_loader_test):
         self.max_num_epochs = self.opt['max_num_epochs'] #定义最大的epochs值
-        start_epoch = self.curdr_epoch
+        start_epoch = self.curr_epoch
         if len(self.optimizers) == 0:
             self.init_all_optimizers()
 
